@@ -123,9 +123,14 @@ Formsy.Form = React.createClass({displayName: "Form",
   },
 
   // Reset each key in the model to the original / initial value
-  resetModel: function () {
+  resetModel: function (options) {
+    if (options == undefined) {
+      options = {
+        isPristine: true
+      };
+    };
     Object.keys(this.inputs).forEach(function (name) {
-      this.inputs[name].resetValue();
+      this.inputs[name].resetValue(options.isPristine);
     }.bind(this));
     this.validateForm();
   },
@@ -339,6 +344,8 @@ if (!global.exports && !global.module && (!global.define || !global.define.amd))
 
 module.exports = Formsy;
 
+
+
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./Mixin.js":2,"./utils.js":3,"./validationRules.js":4,"react":"react"}],2:[function(require,module,exports){
 module.exports = {
@@ -432,10 +439,13 @@ module.exports = {
       this.props._validate(this);
     }.bind(this));
   },
-  resetValue: function () {
+  resetValue: function (isPristine) {
+    if (isPristine) {
+      isPristine = true;
+    };
     this.setState({
       _value: '',
-      _isPristine: true
+      _isPristine: isPristine
     }, function () {
       this.props._validate(this);
     });
@@ -469,8 +479,10 @@ module.exports = {
   }
 };
 
+
+
 },{}],3:[function(require,module,exports){
-var csrfTokenSelector = document.querySelector('meta[name="csrf-token"]');
+var csrfTokenSelector = typeof document != 'undefined' ? document.querySelector('meta[name="csrf-token"]') : null;
 
 var toURLEncoded = function (element, key, list) {
   var list = list || [];
@@ -547,6 +559,8 @@ module.exports = {
   }
 };
 
+
+
 },{}],4:[function(require,module,exports){
 module.exports = {
   'isValue': function (value) {
@@ -562,7 +576,7 @@ module.exports = {
     if (typeof value === 'number') {
       return true;
     } else {
-      matchResults = value.match(/[-+]?(\d*[.])?\d+/);
+      var matchResults = value.match(/[-+]?(\d*[.])?\d+/);
       if (!! matchResults) {
         return matchResults[0] == value;
       } else {
@@ -592,5 +606,7 @@ module.exports = {
     return value === this[field];
   }
 };
+
+
 
 },{}]},{},[1]);

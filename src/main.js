@@ -121,9 +121,14 @@ Formsy.Form = React.createClass({
   },
 
   // Reset each key in the model to the original / initial value
-  resetModel: function () {
+  resetModel: function (options) {
+    if (options == undefined) {
+      options = {
+        isPristine: true
+      };
+    };
     Object.keys(this.inputs).forEach(function (name) {
-      this.inputs[name].resetValue();
+      this.inputs[name].resetValue(options.isPristine);
     }.bind(this));
     this.validateForm();
   },

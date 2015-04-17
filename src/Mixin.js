@@ -89,10 +89,13 @@ module.exports = {
       this.props._validate(this);
     }.bind(this));
   },
-  resetValue: function () {
+  resetValue: function (isPristine) {
+    if (isPristine) {
+      isPristine = true;
+    };
     this.setState({
       _value: '',
-      _isPristine: true
+      _isPristine: isPristine
     }, function () {
       this.props._validate(this);
     });
