@@ -90,7 +90,7 @@ module.exports = {
     }.bind(this));
   },
   resetValue: function (isPristine) {
-    if (isPristine) {
+    if (isPristine == undefined) {
       isPristine = true;
     };
     this.setState({
